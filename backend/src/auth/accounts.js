@@ -6,6 +6,12 @@ import { z } from 'zod'
 import { config } from '../config.js'
 import { HttpError } from '../onboarding/workflow.js'
 const digest = (t) => createHash('sha256').update(t).digest('hex')
+
+/**
+ * Sends a password-setup or reset email to the given personal email address.
+ * In development (no SMTP), writes the mail payload to .local/mail/ as JSON.
+ * @returns {Promise<boolean>} true if mail was sent or saved, false on failure.
+ */
 export async function sendAccess(db, user, personalEmail, welcome = false) {
   if (!personalEmail) return false
   const token = randomBytes(32).toString('hex')
