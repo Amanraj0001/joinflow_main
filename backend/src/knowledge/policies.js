@@ -154,6 +154,7 @@ export function policyRoutes(app, db, role) {
       )
     res.json({ ok: true })
   })
+  // Suggestion route: allows HR to suggest policy updates and revisions
   app.post('/api/policies/:id/suggest', role('HR'), async (req, res) => {
     const { body } = z
       .object({ body: z.string().trim().min(1).max(3000) })
