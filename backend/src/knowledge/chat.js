@@ -41,6 +41,7 @@ export async function chat(
   question,
   { infer = config.groqKey ? hostedAnswer : null, timeout = 8000 } = {},
 ) {
+  // Enforce privacy barrier: only allow queries on employee's own onboarding tasks and records
   const profile = await checklist(db, employeeId)
   if (
     /another|coworker|colleague|all employees|team.?s tasks|someone else|[\p{L}]+['’]s (?:tasks|payroll|checklist|status)/iu.test(
