@@ -62,6 +62,7 @@ export function createApp(db, options = {}) {
     },
     express.json({ limit: '8mb' })
   )
+  // Health check endpoint — verifies DB connectivity before responding.
   app.get('/api/health', async (req, res) => {
     await db.$queryRaw`SELECT 1`
     res.json({ ok: true })
@@ -92,6 +93,8 @@ export function createApp(db, options = {}) {
   app.get('/{*path}', (req, res) =>
     res.sendFile(path.resolve('dist/index.html'))
   )
+  // Global error handler — maps known error types to HTTP status codes.
+  // Handles Zod validation errors, Prisma constraint errors, and custom HttpErrors.
   app.use((err, req, res, next) => {
     const status =
       err instanceof z.ZodError
