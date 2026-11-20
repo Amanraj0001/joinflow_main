@@ -50,6 +50,7 @@ export function assistantRoutes(app, db, role, options) {
     })
     res.json({ ...result, id: turn.id })
   })
+  // Human handoff escalation: allows employees to forward unresolved questions to HR
   app.post('/api/handoffs', role('Employee'), async (req, res) => {
     const v = question.extend({ turnId: z.string().optional() }).parse(req.body)
     const employeeId = req.user.profile.id
