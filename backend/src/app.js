@@ -97,6 +97,7 @@ export function createApp(db, options = {}) {
   )
   // Global error handler — maps known error types to HTTP status codes.
   // Handles Zod validation errors, Prisma constraint errors, and custom HttpErrors.
+  // Global error handler — maps Zod, Prisma, and HttpErrors to JSON responses.
   app.use((err, req, res, next) => {
     const status =
       err instanceof z.ZodError
