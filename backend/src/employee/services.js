@@ -230,6 +230,7 @@ export function employeeRoutes(app, db, role) {
     })
     res.json({ ok: true })
   })
+  // Support issue ticketing: handles employee issue creation with automated priority routing
   app.post('/api/issues', role('Employee'), async (req, res) => {
     const { category, description, file, filename } = z
       .object({
