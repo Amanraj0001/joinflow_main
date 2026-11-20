@@ -12,3 +12,13 @@ export function taskGroup(task, profile) {
   if (task.owner.id !== profile.userId || task.approval) return 'Assigned to others'
   return 'Your actions'
 }
+
+export function personalQueue(profile) {
+  return profile.tasks.filter((task) => taskGroup(task, profile) === 'Your actions')
+    .sort((a, b) =>
+      Number(b.status === 'In progress') - Number(a.status === 'In progress') ||
+      Number(b.required) - Number(a.required) ||
+      (a.due || '9999').localeCompare(b.due || '9999') ||
+      Number(b.id === profile.next) - Number(a.id === profile.next)
+    )
+}
