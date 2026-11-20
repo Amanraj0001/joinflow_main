@@ -4,6 +4,8 @@ JoinFlow is an employee onboarding workspace for new hires, managers, and HR. Ea
 
 **[View the JoinFlow project presentation on Google Slides](https://docs.google.com/presentation/d/1MzQwoaOgfQMv9HrMNrn8AqepRB4RTok0/edit?usp=sharing&ouid=105437218501541081167&rtpof=true&sd=true)**
 
+**[Watch the JoinFlow live demonstration video on Google Drive](https://drive.google.com/file/d/1vTT5dIdjXWhvsiO_NvJwlvZzHnrpYRbm/view?usp=sharing)**
+
 ## Run locally
 
 Use Git, **Node.js 24** (the version pinned in `.nvmrc`), npm, and **Python 3.12**. The local database helper starts PostgreSQL for you. The default demo works without a Groq account or an email provider.
