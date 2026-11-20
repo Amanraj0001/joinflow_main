@@ -109,7 +109,9 @@ export function publicAccounts(app, db) {
     res.json({ ok: true })
   })
 }
+// Staff account management — approval/rejection of HR and Manager registrations.
 export function staffAccounts(app, db, role) {
+  // Only a Manager can approve or reject HR/Manager registrations.
   app.post('/api/registrations/:id', role('Manager'), async (req, res) => {
     const { decision } = z
       .object({ decision: z.enum(['Approve', 'Reject']) })
@@ -127,6 +129,7 @@ export function staffAccounts(app, db, role) {
       throw new HttpError(409, 'Registration already reviewed.')
     res.json({ ok: true })
   })
+  // HR can resend the welcome email with a new single-use invite link.
   app.post('/api/employees/:id/invite', role('HR'), async (req, res) => {
     const p = await db.employee.findUniqueOrThrow({
       where: { id: req.params.id },
