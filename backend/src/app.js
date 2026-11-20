@@ -39,6 +39,7 @@ export function createApp(db, options = {}) {
     '/api',
     (req, res, next) => {
       req.requestId = randomUUID()
+      // Attach security headers and a unique request ID to every API response.
       res.set({
         'X-Request-ID': req.requestId,
         'Cache-Control': 'no-store',
