@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { HttpError, safeUser } from '../onboarding/workflow.js'
 
 export function sessionRoutes(app, db, key, cookie) {
+  // Login route — validates credentials, checks verification status, issues 8h JWT cookie.
   app.post('/api/auth/login', async (req, res) => {
     const { email, password } = z
       .object({
