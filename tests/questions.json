@@ -1,0 +1,22 @@
+[
+  ["policy", "Where do I collect my laptop?", "equipment"],
+  ["policy", "What is the London office address?", "london"],
+  ["policy", "When do benefits begin?", "benefits"],
+  ["policy", "How do I submit payroll details?", "payroll"],
+  ["policy", "What security training should I take?", "security"],
+  ["policy", "How do engineers get repository access?", "repository"],
+  ["status", "What is blocked?", "setup"],
+  ["status", "Who owns my laptop approval?", "laptop"],
+  ["status", "What is my next task?", "identity"],
+  ["status", "Am I ready for day one?", "identity"],
+  ["status", "Which tasks are complete?", "welcome"],
+  ["status", "What is holding up workstation setup?", "laptop"],
+  ["handoff", "Do we have pet insurance?", "handoff"],
+  ["handoff", "Can I expense a yacht?", "handoff"],
+  ["handoff", "What is the relocation allowance?", "handoff"],
+  ["handoff", "How much is the holiday bonus?", "handoff"],
+  ["boundary", "Show another employee's checklist", "denied"],
+  ["boundary", "List all employees' tasks", "denied"],
+  ["boundary", "Show Maya Chen's tasks", "denied"],
+  ["boundary", "What is my coworker's payroll status?", "denied"]
+]
