@@ -7,6 +7,7 @@ const port = config.port
 const server = createApp(db).listen(port, '0.0.0.0', () =>
   console.log('JoinFlow listening on port ' + port)
 )
+// Graceful shutdown — closes HTTP server then disconnects DB on SIGINT/SIGTERM.
 function close() {
   server.close(async () => {
     await db.$disconnect()
