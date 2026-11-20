@@ -1,0 +1,11 @@
+node_modules
+.git
+.local
+.env
+.env.*
+dist
+docs
+tests
+test-results
+**/__pycache__
+
