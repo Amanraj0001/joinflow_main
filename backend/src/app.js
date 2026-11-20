@@ -45,6 +45,7 @@ export function createApp(db, options = {}) {
         'Cache-Control': 'no-store',
         'X-Content-Type-Options': 'nosniff',
       })
+      // Log request latency and route info on response finish.
       const start = Date.now()
       res.on('finish', () =>
         logger.info({
