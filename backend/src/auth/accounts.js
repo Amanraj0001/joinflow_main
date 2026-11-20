@@ -78,7 +78,7 @@ export function publicAccounts(app, db) {
     })
     res.status(201).json({ ok: true })
   })
-  // Forgot password — silently succeeds even if email not found (prevents user enumeration).
+  // Forgot password — always returns ok to prevent user enumeration attacks.
   app.post('/api/auth/forgot', async (req, res) => {
     const { email } = z.object({ email: z.email() }).parse(req.body)
     const user = await db.user.findUnique({
