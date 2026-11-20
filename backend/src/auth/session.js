@@ -35,8 +35,8 @@ export function sessionRoutes(app, db, key, cookie) {
       .cookie('joinflow', token, { ...cookie, maxAge: 8 * 3600000 })
       .json({ ok: true })
   })
-  // Session validation middleware — runs on every /api route after login.
-  // Extracts JWT from HttpOnly cookie, verifies signature, and attaches req.user.
+  // Session validation middleware — runs on every protected /api route.
+  // Verifies JWT signature, checks sessionVersion for forced logout support.
   app.use('/api', async (req, res, next) => {
     const token = req.headers.cookie
       ?.split(/;\s*/)
