@@ -71,6 +71,7 @@ export function publicAccounts(app, db) {
     })
     res.status(201).json({ ok: true })
   })
+  // Forgot password — silently succeeds even if email not found (prevents user enumeration).
   app.post('/api/auth/forgot', async (req, res) => {
     const { email } = z.object({ email: z.email() }).parse(req.body)
     const user = await db.user.findUnique({
@@ -81,6 +82,8 @@ export function publicAccounts(app, db) {
       await sendAccess(db, user, user.profile.personalEmail)
     res.json({ ok: true })
   })
+  // Reset password — validates token hash and expiry before allowing password change.
+  // Reset token expires in 1 hour; welcome tokens expire in 24 hours.
   app.post('/api/auth/reset', async (req, res) => {
     const { token, password } = z
       .object({
