@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: joinflow
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: RAG_SECRET
+        generateValue: true
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DEMO_PASSWORD
+        sync: false
+      - key: GROQ_MODEL
+        value: openai/gpt-oss-20b
+
