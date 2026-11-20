@@ -116,7 +116,7 @@ export function publicAccounts(app, db) {
     res.json({ ok: true })
   })
 }
-// Staff account management — approval/rejection of HR and Manager registrations.
+// Staff account management — handles Manager approval/rejection and HR invite resend.
 export function staffAccounts(app, db, role) {
   // Only a Manager can approve or reject HR/Manager registrations.
   app.post('/api/registrations/:id', role('Manager'), async (req, res) => {
