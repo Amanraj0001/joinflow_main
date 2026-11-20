@@ -9,10 +9,11 @@ JoinFlow is an employee onboarding workspace for new hires, managers, and HR. Ea
 ## Team
 
 - [Aman Kumar’s résumé](https://drive.google.com/file/d/1vR4rKT4AzEOZMp5B33nuJ_A6Xkx_Wry5/view?usp=sharing)
-- [Akash Sarkar’s résumé](https://drive.google.com/file/d/13rzOTVLq4-U-LtGOm8-gxe_QxdxWUGiH/view?usp=sharing)
+- [Akash Sarkar’s résumé](https://drive.google.com/file/d/1nQo88cxPXyqhAVna5kF6gkWni20z-NdN/view?usp=drive_link)
 - [Amit Kumar’s résumé](https://drive.google.com/file/d/13rzOTVLq4-U-LtGOm8-gxe_QxdxWUGiH/view?usp=sharing)
 - [Sourav Yogi’s résumé](https://drive.google.com/file/d/1qoOgm6rmeKEi7bN8EaO3AY1MQdBmYZzB/view?usp=sharing)
 - [Shubham Kumar’s résumé](https://drive.google.com/file/d/12CABLCmkzf2ASXxH19IqY8DEinf9Arhj/view?usp=sharing)
+- [Jinay Parmar’s résumé](https://drive.google.com/file/d/12w1c69TQ87i8i38uNi6X0FqOxg1nWlaK/view?usp=drivesdk)
 
 ## Run locally
 
