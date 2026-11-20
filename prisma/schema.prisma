@@ -1,0 +1,235 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  department     String     @default("People")
+  verified       Boolean    @default(true)
+  sessionVersion Int        @default(0)
+  resetHash      String?    @unique
+  resetExpires   DateTime?
+  id             String     @id @default(cuid())
+  email          String     @unique
+  name           String
+  hash           String
+  role           String
+  profile        Employee?
+  team           Employee[] @relation("manager")
+  owned          Task[]
+  events         Audit[]
+}
+
+model Employee {
+  personalEmail String?
+  department    String       @default("General")
+  plan          String       @default("Approved")
+  chatTurns     ChatTurn[]
+  issues        Issue[]
+  documents     Submission[]
+  notices       Notice[]
+  messages      Message[]
+  id            String       @id @default(cuid())
+  userId        String       @unique
+  user          User         @relation(fields: [userId], references: [id])
+  managerId     String
+  manager       User         @relation("manager", fields: [managerId], references: [id])
+  job           String
+  location      String
+  startDate     DateTime
+  version       Int          @default(1)
+  tasks         Task[]
+  events        Audit[]
+  handoffs      Handoff[]
+}
+
+model Template {
+  custom        Boolean      @default(false)
+  id            String       @id
+  title         String
+  description   String
+  category      String
+  ownerRole     String
+  required      Boolean
+  job           String?
+  location      String?
+  position      Int
+  tasks         Task[]
+  prerequisites Dependency[] @relation("child")
+  unlocks       Dependency[] @relation("parent")
+}
+
+model Dependency {
+  childId  String
+  parentId String
+  child    Template @relation("child", fields: [childId], references: [id])
+  parent   Template @relation("parent", fields: [parentId], references: [id])
+
+  @@id([childId, parentId])
+}
+
+model Task {
+  startedAt    DateTime?
+  evidenceKind String?
+  confidence   Float?
+  review       String    @default("Approved")
+  due          DateTime?
+  detail       String?
+  department   String    @default("People")
+  source       String    @default("Rule")
+  policyRef    String?
+  id           String    @id @default(cuid())
+  employeeId   String
+  employee     Employee  @relation(fields: [employeeId], references: [id])
+  templateId   String
+  template     Template  @relation(fields: [templateId], references: [id])
+  ownerId      String
+  owner        User      @relation(fields: [ownerId], references: [id])
+  completedAt  DateTime?
+  active       Boolean   @default(true)
+  approval     Approval?
+
+  @@unique([employeeId, templateId])
+}
+
+model Approval {
+  id        String    @id @default(cuid())
+  taskId    String    @unique
+  task      Task      @relation(fields: [taskId], references: [id])
+  decision  String?
+  decidedAt DateTime?
+}
+
+model Policy {
+  description   String?
+  category      String?
+  effectiveDate String?
+  modifiedBy    String?
+  updatedAt     DateTime? @updatedAt
+  revisions     Json      @default("[]")
+  sourceText    String?
+  ownerId       String?
+  department    String?
+  processing    String    @default("Ready")
+  chunks        Json?
+  sourcePdf     Bytes?
+  archived      Boolean   @default(false)
+  id            String    @id
+  title         String
+  body          String
+  job           String?
+  location      String?
+  approved      Boolean
+  version       Int
+}
+
+model Handoff {
+  id         String    @id @default(cuid())
+  employeeId String
+  employee   Employee  @relation(fields: [employeeId], references: [id])
+  question   String
+  answer     String?
+  answeredBy String?
+  answeredAt DateTime?
+  createdAt  DateTime  @default(now())
+}
+
+model Audit {
+  taskId     String?
+  id         String   @id @default(cuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  actorId    String
+  actor      User     @relation(fields: [actorId], references: [id])
+  message    String
+  createdAt  DateTime @default(now())
+
+  @@index([employeeId, createdAt])
+}
+
+model JobRole {
+  name  String   @id
+  steps String[]
+}
+
+model ChatTurn {
+  id         String   @id @default(cuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  question   String
+  answer     Json
+  createdAt  DateTime @default(now())
+
+  @@index([employeeId, createdAt])
+}
+
+model Submission {
+  analysis   Json?
+  id         String   @id @default(cuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  kind       String
+  filename   String
+  bytes      Bytes
+  mime       String
+  status     String   @default("Pending Review")
+  reason     String?
+  updatedAt  DateTime @updatedAt
+
+  @@unique([employeeId, kind])
+}
+
+model Issue {
+  internalNotes Json     @default("[]")
+  attachment    Bytes?
+  filename      String?
+  triage        Json?
+  id            String   @id @default(cuid())
+  employeeId    String
+  employee      Employee @relation(fields: [employeeId], references: [id])
+  category      String
+  description   String
+  department    String
+  priority      String
+  status        String   @default("Open")
+  updates       Json     @default("[]")
+  createdAt     DateTime @default(now())
+}
+
+model Message {
+  hrId       String
+  id         String   @id @default(cuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  senderId   String
+  senderName String
+  body       String
+  createdAt  DateTime @default(now())
+
+  @@index([employeeId, createdAt])
+}
+
+model Notice {
+  id         String   @id @default(cuid())
+  employeeId String
+  employee   Employee @relation(fields: [employeeId], references: [id])
+  key        String
+  body       String
+  read       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@unique([employeeId, key])
+}
+
+model PolicySuggestion {
+  id        String   @id @default(cuid())
+  policyId  String
+  author    String
+  body      String
+  status    String   @default("Pending")
+  createdAt DateTime @default(now())
+}

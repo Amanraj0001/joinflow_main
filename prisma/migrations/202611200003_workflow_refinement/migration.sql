@@ -1,0 +1,10 @@
+CREATE TABLE "ChatTurn" ("id" TEXT PRIMARY KEY, "employeeId" TEXT NOT NULL REFERENCES "Employee"("id") ON UPDATE CASCADE, "question" TEXT NOT NULL, "answer" JSONB NOT NULL, "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE INDEX "ChatTurn_employeeId_createdAt_idx" ON "ChatTurn"("employeeId","createdAt");
+ALTER TABLE "Issue" ADD COLUMN "attachment" BYTEA, ADD COLUMN "filename" TEXT;
+ALTER TABLE "Submission" ADD COLUMN "analysis" JSONB;
+ALTER TABLE "Policy" ADD COLUMN "description" TEXT, ADD COLUMN "category" TEXT, ADD COLUMN "effectiveDate" TEXT, ADD COLUMN "modifiedBy" TEXT, ADD COLUMN "updatedAt" TIMESTAMP(3), ADD COLUMN "revisions" JSONB NOT NULL DEFAULT '[]';
+ALTER TABLE "Task" ADD COLUMN "startedAt" TIMESTAMP(3);
+ALTER TABLE "Audit" ADD COLUMN "taskId" TEXT;
+ALTER TABLE "Issue" ADD COLUMN "internalNotes" JSONB NOT NULL DEFAULT '[]';
+ALTER TABLE "Task" ADD COLUMN "evidenceKind" TEXT;
+UPDATE "Task" SET "evidenceKind"='Identity document' WHERE "templateId"='identity';
