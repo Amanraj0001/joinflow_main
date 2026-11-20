@@ -380,8 +380,8 @@ export function employeeRoutes(app, db, role) {
       res.json({ ok: true })
     },
   )
+// Notification endpoints: batch mark notifications read or acknowledge individual notices
   app.post(
-    '/api/notifications/read-all',
     role('Employee'),
     async (req, res) => {
       await db.notice.updateMany({
