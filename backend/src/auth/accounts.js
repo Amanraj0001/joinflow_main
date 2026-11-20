@@ -52,6 +52,7 @@ export async function sendAccess(db, user, personalEmail, welcome = false) {
   }
 }
 export function publicAccounts(app, db) {
+  // Registration endpoint — creates Manager or HR accounts pending manager approval.
   app.post('/api/auth/register', async (req, res) => {
     const { name, email, password, role, department } = z
       .object({
