@@ -54,6 +54,8 @@ export function createApp(db, options = {}) {
           ...res.locals.chat,
         })
       )
+      // Block POST requests from origins not matching the configured ORIGIN env variable.
+      // This covers both localhost and 127.0.0.1 in local development.
       if (req.method === 'POST' && req.headers.origin !== origin)
         return next(new HttpError(403, 'Request origin is not allowed.'))
       next()
